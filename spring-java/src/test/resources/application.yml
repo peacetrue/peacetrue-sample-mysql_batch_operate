@@ -1,0 +1,83 @@
+spring:
+  application:
+    name: mysql_batch_operate
+logging:
+  level:
+    root: info
+    com.github.peacetrue: debug
+#    org.springframework: debug
+
+---
+spring.config.activate.on-profile: batch
+
+batch-size: 10000
+
+---
+spring.config.activate.on-profile: h2
+
+spring:
+  datasource:
+    driver-class-name: org.h2.Driver
+
+---
+spring.config.activate.on-profile: h2_mem
+
+spring:
+  datasource:
+    url: jdbc:h2:mem:~/${spring.application.name};DB_CLOSE_ON_EXIT=FALSE;MODE=MySQL;DATABASE_TO_LOWER=TRUE
+
+---
+spring.config.activate.on-profile: h2_file
+
+spring:
+  datasource:
+    url: jdbc:h2:file:~/${spring.application.name};DB_CLOSE_ON_EXIT=FALSE;MODE=MySQL;DATABASE_TO_LOWER=TRUE
+
+---
+spring.config.activate.on-profile: mysql
+
+spring:
+  datasource:
+    driver-class-name: com.mysql.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/${spring.application.name}?autoReconnect=true&autoReconnectForPools=true&useUnicode=true&characterEncoding=utf8&useSSL=false&rewriteBatchedStatements=true
+    username: idsmanager
+    password: idsmanager
+  flyway:
+    url: jdbc:mysql://localhost:3306?autoReconnect=true&autoReconnectForPools=true&useUnicode=true&characterEncoding=utf8&useSSL=false&rewriteBatchedStatements=true
+    user: ${spring.datasource.username}
+    password: ${spring.datasource.password}
+    create-schemas: true
+    schemas: ${spring.application.name}
+
+---
+spring.config.activate.on-profile: log4jdbc
+
+logging:
+  level:
+    jdbc: off
+    jdbc.sqlonly: debug
+
+spring:
+  datasource:
+    driver-class-name: net.sf.log4jdbc.DriverSpy
+
+---
+spring.config.activate.on-profile: log4jdbc&h2_mem
+
+spring:
+  datasource:
+    url: jdbc:log4jdbc:h2:mem:${spring.application.name};DB_CLOSE_ON_EXIT=FALSE;MODE=MySQL;DATABASE_TO_LOWER=TRUE
+
+---
+spring.config.activate.on-profile: log4jdbc&h2_file
+
+spring:
+  datasource:
+    url: jdbc:log4jdbc:h2:file:~/${spring.application.name};DB_CLOSE_ON_EXIT=FALSE;MODE=MySQL;DATABASE_TO_LOWER=TRUE
+
+---
+spring.config.activate.on-profile: log4jdbc&mysql
+
+spring:
+  datasource:
+    url: jdbc:log4jdbc:mysql://localhost:3306/${spring.application.name}?autoReconnect=true&autoReconnectForPools=true&useUnicode=true&characterEncoding=utf8&useSSL=false&rewriteBatchedStatements=true

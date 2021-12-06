@@ -14,7 +14,7 @@ allprojects { project ->
 
     group "com.github.peacetrue.template"
     version "1.0.0-SNAPSHOT"
-    description "gradle模板"
+    description "mysql 批量操作"
 
     apply plugin: "java"
     apply plugin: "java-library"
@@ -37,6 +37,7 @@ allprojects { project ->
         compileOnly "org.projectlombok:lombok"
         annotationProcessor "org.projectlombok:lombok"
         implementation "com.google.code.findbugs:jsr305"
+        implementation 'ch.qos.logback:logback-classic'
 
         testImplementation 'org.junit.jupiter:junit-jupiter-api'
         testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine'
@@ -54,6 +55,15 @@ allprojects { project ->
         testImplementation 'org.jeasy:easy-random-bean-validation', {
             exclude('group': 'org.yaml')
         }
+        testImplementation 'com.googlecode.log4jdbc:log4jdbc:1.2'
+        //https://stackoverflow.com/questions/59779435/pivotal-web-services-flyway-enterprise-edition-or-mysql-upgrade-required
+        testImplementation 'org.flywaydb:flyway-core:5.2.4'
+        //Caused by: java.lang.ClassNotFoundException: org.springframework.dao.DataAccessException
+        testImplementation 'org.springframework:spring-tx'
+        testImplementation 'org.springframework:spring-jdbc'
+        testImplementation 'com.h2database:h2'
+        testImplementation 'mysql:mysql-connector-java'
+
     }
 
     test {

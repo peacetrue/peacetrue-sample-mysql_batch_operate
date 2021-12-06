@@ -1,0 +1,7 @@
+dependencies {
+    implementation rootProject
+    implementation 'org.hibernate:hibernate-core:5.4.2.Final'
+    implementation 'org.springframework:spring-context'
+    implementation 'org.springframework:spring-orm:5.1.6.RELEASE'
+    implementation 'org.apache.tomcat:tomcat-dbcp:9.0.1'
+}

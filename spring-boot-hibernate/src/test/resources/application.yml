@@ -1,0 +1,54 @@
+spring:
+  application:
+    name: mysql_batch_operate
+  jpa:
+    hibernate:
+      ddl-auto: create-drop
+logging:
+  level:
+    root: info
+    com.github.peacetrue: debug
+    # org.springframework: debug
+
+---
+spring.config.activate.on-profile: batch
+
+spring:
+  jpa:
+    properties:
+      hibernate.jdbc.batch_size: 1000
+
+---
+spring.config.activate.on-profile: mysql
+
+spring:
+  datasource:
+    driver-class-name: com.mysql.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/${spring.application.name}?autoReconnect=true&autoReconnectForPools=true&useUnicode=true&characterEncoding=utf8&useSSL=false&rewriteBatchedStatements=true
+    username: idsmanager
+    password: idsmanager
+  flyway:
+    url: jdbc:mysql://localhost:3306?autoReconnect=true&autoReconnectForPools=true&useUnicode=true&characterEncoding=utf8&useSSL=false&rewriteBatchedStatements=true
+    user: ${spring.datasource.username}
+    password: ${spring.datasource.password}
+    create-schemas: true
+    schemas: ${spring.application.name}
+
+---
+spring.config.activate.on-profile: log4jdbc
+
+logging:
+  level:
+    jdbc: off
+    jdbc.sqlonly: info
+
+spring:
+  datasource:
+    driver-class-name: net.sf.log4jdbc.DriverSpy
+
+---
+spring.config.activate.on-profile: log4jdbc&mysql
+
+spring:
+  datasource:
+    url: jdbc:log4jdbc:mysql://localhost:3306/${spring.application.name}?autoReconnect=true&autoReconnectForPools=true&useUnicode=true&characterEncoding=utf8&useSSL=false&rewriteBatchedStatements=true

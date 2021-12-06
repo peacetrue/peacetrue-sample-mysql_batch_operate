@@ -1,1 +1,5 @@
-rootProject.name = "peacetrue-template-gradle"
+rootProject.name = "peacetrue-sample-mysql_batch_operate"
+include 'spring-java'
+include 'spring-hibernate'
+include 'spring-boot-hibernate'
+

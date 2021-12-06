@@ -1,0 +1,11 @@
+spring:
+  application:
+    name: mysql_batch_operate
+logging:
+  level:
+    root: info
+    com.github.peacetrue: debug
+#    org.springframework: debug
+    jdbc: off
+    jdbc.sqlonly: info
+
